@@ -4,14 +4,31 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
+    private EditText mInputText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInputText = (EditText) findViewById(R.id.editText);
+    }
+
+    // Конвертируем в метры
+    private float convertParrotToMeter(float parrot) {
+        return (float) (parrot / 7.6);
+    }
+
+    // Конвертируем в попугаи
+    private float convertMeterToParrot(float meter) {
+        return (float) (meter * 7.6);
     }
 
 
@@ -35,5 +52,21 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void buttonConvert_Click(View view) {
+        RadioButton meterRedioButton = (RadioButton)findViewById(R.id.radioButtonMeter);
+
+        if(mInputText.getText().length() == 0){
+            Toast.makeText(getApplicationContext(), "Введитедлину кота", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        float inputValue = Float.parseFloat(mInputText.getText().toString());
+        if(meterRedioButton.isChecked()){
+            mInputText.setText(String.valueOf(convertParrotToMeter(inputValue)));
+        }else{
+            mInputText.setText(String.valueOf(convertMeterToParrot(inputValue)));
+        }
     }
 }
